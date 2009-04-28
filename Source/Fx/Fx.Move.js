@@ -22,7 +22,7 @@ Fx.Move = new Class({
 	},
 
 	start: function(destination){
-		return this.parent(this.element.position($merge(this.options, destination, {returnPos: true})));
+		return this.parent(this.element.setPosition($merge(this.options, destination, {returnPos: true})));
 	}
 
 });
