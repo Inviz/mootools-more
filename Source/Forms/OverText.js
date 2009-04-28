@@ -13,13 +13,14 @@ var OverText = new Class({
 
 	Implements: [Options, Events, Class.Occlude],
 
-	Binds: ['reposition', 'test', 'focus'],
+	Binds: ['reposition', 'assert', 'focus'],
 
 	options: {/*
 		textOverride: null,
 		onFocus: $empty()
 		onTextHide: $empty(textEl, inputEl),
 		onTextShow: $empty(textEl, inputEl), */
+		element: 'label',
 		positionOptions: {
 			position: 'upperLeft',
 			edge: 'upperLeft',
@@ -41,6 +42,7 @@ var OverText = new Class({
 		this.attach(this.element);
 		OverText.instances.push(this);
 		if (this.options.poll) this.poll();
+		return this;
 	},
 
 	toElement: function(){
@@ -50,7 +52,7 @@ var OverText = new Class({
 	attach: function(){
 		var val = this.options.textOverride || this.element.get('alt') || this.element.get('title');
 		if (!val) return;
-		this.text = new Element('div', {
+		this.text = new Element(this.options.element, {
 			'class': 'overTxtDiv',
 			styles: {
 				lineHeight: 'normal',
@@ -61,13 +63,14 @@ var OverText = new Class({
 				click: this.hide.pass(true, this)
 			}
 		}).inject(this.element, 'after');
+		if (this.options.element == 'label') this.text.set('for', this.element.get('id'));
 		this.element.addEvents({
 			focus: this.focus,
-			blur: this.test,
-			change: this.test
+			blur: this.assert,
+			change: this.assert
 		}).store('OverTextDiv', this.text);
 		window.addEvent('resize', this.reposition.bind(this));
-		this.test();
+		this.assert();
 		this.reposition();
 	},
 
@@ -82,7 +85,7 @@ var OverText = new Class({
 		//resumeon blur
 		if (this.poller && !stop) return this;
 		var test = function(){
-			if (!this.pollingPaused) this.test();
+			if (!this.pollingPaused) this.assert();
 		}.bind(this);
 		if (stop) $clear(this.poller);
 		else this.poller = test.periodical(this.options.pollInterval, this);
@@ -121,14 +124,18 @@ var OverText = new Class({
 		return this;
 	},
 
+	assert: function(){
+		this[this.test() ? 'show' : 'hide']();
+	},
+
 	test: function(){
 		var v = this.element.get('value');
-		this[v ? 'hide' : 'show']();
 		return !v;
 	},
 
 	reposition: function(){
 		try {
+			this.assert();
 			if (!this.element.getParent() || !this.element.offsetHeight) return this.hide();
 			if (this.test()) this.text.position($merge(this.options.positionOptions, {relativeTo: this.element}));
 		} catch(e){	}

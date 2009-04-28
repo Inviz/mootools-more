@@ -1,4 +1,4 @@
-﻿/*
+/*
 Script: String.QueryString.js
 	...
 
@@ -10,7 +10,7 @@ Script: String.QueryString.js
 */
 
 String.implement({
-	
+
 	parseQueryString: function(){
 		var vars = this.split(/[&;]/), res = {};
 		if (vars.length) vars.each(function(val){

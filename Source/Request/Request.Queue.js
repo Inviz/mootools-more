@@ -43,7 +43,9 @@ Request.Queue = new Class({
 	},
 
 	addRequests: function(obj){
-		$each(obj, this.addRequest, this);
+		$each(obj, function(req, name){
+			this.addRequest(name, req);
+		}, this);
 		return this;
 	},
 
@@ -111,7 +113,7 @@ Request.Queue = new Class({
 	},
 
 	runNext: function(name){
-		if (!this.queue.length) return;
+		if (!this.queue.length) return this;
 		if (!name){
 			this.queue[0]();
 		} else {
@@ -125,7 +127,7 @@ Request.Queue = new Class({
 		}
 		return this;
 	},
-	
+
 	runAll: function() {
 		this.queue.each(function(q) {
 			q();

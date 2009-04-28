@@ -11,13 +11,13 @@ Script: Element.Position.js
 
 (function(){
 
-//Tom wants to rename the old .position to .setPosition; until he does, we need this.
-var oldPosition = Element.prototype.position;
+var original = Element.prototype.position;
 
 Element.implement({
 
 	position: function(options){
-		if (options && ($defined(options.x) || $defined(options.y))) return oldPosition ? oldPosition.apply(this, arguments) : this;
+		//call original position if the options are x/y values
+		if (options && ($defined(options.x) || $defined(options.y))) return original ? original.apply(this, arguments) : this;
 		$each(options||{}, function(v, k){ if (!$defined(v)) delete options[k]; });
 		options = $merge({
 			relativeTo: document.body,

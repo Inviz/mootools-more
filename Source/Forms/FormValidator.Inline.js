@@ -92,6 +92,7 @@ FormValidator.Inline = new Class({
 		field.className.split(' ').each(function(className){
 			this.hideAdvice(className, field);
 		}, this);
+		return this;
 	},
 
 	getAllAdviceMessages: function(field, force){
@@ -155,6 +156,7 @@ FormValidator.Inline = new Class({
 				else par.scrollTo(par.getScroll().x, failed.getPosition(par).y - 20);
 			}
 		}
+		return result;
 	}
 
 });

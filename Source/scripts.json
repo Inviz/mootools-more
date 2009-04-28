@@ -51,7 +51,7 @@
 		},
 
 		"Date": {
-			"deps": ["More", "Core", "String", "Number", "Hash", "Array", "String.Extras", "Lang", "Date.English.US"],
+			"deps": ["More", "Core", "String", "Number", "Array", "String.Extras", "Lang", "Date.English.US"],
 			"desc": "Extends the Date native object to include methods useful in managing dates."
 		},
 
@@ -76,7 +76,7 @@
 		},
 
 		"URI": {
-			"deps": ["More", "Function", "Array", "Hash"],
+			"deps": ["More", "Function", "Array", "Hash", "Class.Refactor"],
 			"desc": "Provides methods useful in managing the window location and uris."
 		},
 
@@ -248,7 +248,7 @@
 			"deps": ["More", "Class.Extras", "Cookie", "JSON"],
 			"desc": "Class for creating, reading, and deleting browser Cookies in JSON format."
 		},
-		
+
 		"IframeShim": {
 			"deps": ["More", "Element.Position", "Element.Event", "Element.Style", "Class.Extras", "Class.Occlude"],
 			"desc": "Creates a transparent iframe to mask out items not drawn by the browser (flash, select lists, etc) for IE6."
