@@ -11,7 +11,7 @@ Extends the [Class][] native.
 Class Static Method: refactor {#Class-refactor}
 -----------------------------------------------
 
-Implements properties into a class preserving the previous state of methods so you can reference them..
+Extends a class back onto itself preserving any properties assigned to the class's namespace.
 
 
 ### Syntax
@@ -25,41 +25,50 @@ Implements properties into a class preserving the previous state of methods so y
 
 ### Returns
 
-* *object* - the original class with the new properties assigned. Any methods overwritten are preserved through *this.previous*.
+* *object* - the original class with the new properties assigned. Any properties attached to the original's namespace are preserved.
 
 ### Notes
 
-The *.implements* method of class allows you to inject new properties into an existing class. Where collisions of objects occur, they are blended. For example:
+MooTools is designed to be extended and as you can see in this repository, I make judicious use of that design. One of the cooler things you can do is extend a class onto itself. Let's consider the following code:
 
-	var Animal = new Class({
-	    options: {
-	        color: 'brown',
-	        says: 'hissss'
-	    }
+
+	var Test = new Class({
+		log: function(msg){
+			console.log(msg);
+		},
+		msgs: {
+			foo: 'bar',
+			something: 'something else'
+		},
+		logMsg: function(msg){
+			this.log(this.msgs[msg]);
+		}
 	});
+	var firstTest = new Test();
+	firstTest.log('this is the first test instance');
+	firstTest.logMsg('foo'); //bar
 
-	Animal.implement('options', {says: 'meow'});
+	var Test = new Class({
+		Extends: Test, //extends itself!
+		log: function(msg){
+			this.previous(msg); //methods have reference to previous state via this.previous
+			console.log('altered version of Test just logged message');
+		},
+		msgs: {
+			foo: 'not bar anymore!' //can overwrite nested properties w/o altering others
+		}
+	})
 
-	// Animal.prototype.options is now {says: 'meow', color: 'brown'};
+	//firstTest is unaltered because it was instantiated perviously:
+	firstTest.log('this is the first test instance');
+	firstTest.logMsg('foo'); //bar
 
-However, this is not the case with methods, which are overwritten.
+	//but new instances get the new properties:
+	var secondTest = new Test();
+	secondTest.log('this is the second test instance'); //logs the message and
+			//then "altered version..." message
+	secondTest.logMsg('foo'); //logs "not bar anymore!" and then "altered version.." message
 
-Class.refactor, however, allows you to reference the previous state with *this.previous*. For example:
-
-	var Cat = new Class({
-	    energy: 0,
-	        eat: function(){
-	            this.energy++;
-	    }
-	});
-
-	Cat = Class.refactor(Cat, {
-	    eat: function(){
-	        this.previous(); //energy++!
-	        alert("this cat has " + this.energy + " energy");
-	    }
-	});
-
-Note also that changes to a class affect the subclasses of that class.
+If, say, you only want to change the defaults for *Fx.Tween* but want the *Element.tween* method to use those changes, then you should just use *.implement*. But if you want to reference the previous version of methods (similar to *this.parent* when you use *Extends*), you'll need to use refactor.
 
 [Class]: /docs/core/Class/Class

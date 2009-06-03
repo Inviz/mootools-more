@@ -10,7 +10,13 @@
 		"Lang": {
 			"deps": ["More", "Class.Extras"],
 			"desc": "Enables classes to contain text that can be localized to specific languages."
+		},
+
+		"Log": {
+			"deps": ["Class"],
+			"desc": "A default logger for MooTools. Logs to Firebug or a similar console unless it is not present."
 		}
+
 	},
 
 	"Class": {
@@ -18,6 +24,21 @@
 		"Class.Refactor": {
 			"deps": ["More", "Class"],
 			"desc": "Allows for a class to extend itself without damaging it's namespace."
+		},
+
+		"Class.Binds": {
+			"deps": ["More", "Class"],
+			"desc": "Adds the Binds Mutator to all classes."
+		},
+
+		"Class.Occlude": {
+			"deps": ["More", "Class", "Element"],
+			"desc": "Mixin class for preventing a class from applying itself to the same element twice."
+		},
+
+		"Chain.Wait": {
+			"deps": ["More", "Class.Extras"],
+			"desc": "Adds a delay method for chaining that allows you to easily introduce pauses."
 		}
 
 	},
@@ -68,14 +89,53 @@
 
 	"Element": {
 
+		"Element.Forms": {
+			"deps": ["More", "Element"],
+			"desc": "Extends the Element native object to include methods useful in managing inputs."
+		},
+
 		"Element.Measure": {
 			"deps": ["More", "Element.Style"],
 			"desc": "Extends the Element native object to include methods useful in measuring dimensions."
 		},
 
+		"Element.Pin": {
+			"deps": ["More", "Element.Event", "Element.Dimensions", "Element.Style"],
+			"desc": "Extends the Element native object to include the pin method useful for fixed positioning for elements."
+		},
+
 		"Element.Position": {
 			"deps": ["More", "Element.Dimensions", "Element.Measure"],
 			"desc": "Extends the Element native object to include methods useful positioning elements relative to others."
+		},
+
+		"Element.Shortcuts": {
+			"deps": ["More", "Element.Style"],
+			"desc": "Extends the Element native object to include some shortcut methods."
+		}
+
+	},
+
+	"Forms": {
+
+		"FormValidator": {
+			"deps": ["More", "Lang", "Class.Extras", "Class.Binds", "Selectors", "Element.Event", "Element.Style", "JSON", "Date", "Element.Forms", "FormValidator.English"],
+			"desc": "A css-class based form validation system."
+		},
+
+		"FormValidator.Inline": {
+			"deps": ["More", "FormValidator"],
+			"desc": "A css-class based form validation system."
+		},
+
+		"FormValidator.Extras": {
+			"deps": ["More", "FormValidator"],
+			"desc": "Additional validators for FormValidator."
+		},
+
+		"OverText": {
+			"deps": ["More", "Class.Extras", "Element.Event", "Class.Binds", "Class.Occlude", "Element.Position", "Element.Shortcuts"],
+			"desc": "Displays text over empty inputs until the user focuses the input or adds information."
 		}
 
 	},
@@ -112,6 +172,11 @@
 			"desc": "Effect to slide an element in and out of view."
 		},
 
+		"Fx.SmoothScroll": {
+			"deps": ["More", "Fx.Scroll", "Selectors"],
+			"desc": "Class for creating a smooth scrolling effect to all internal links on the page."
+		},
+
 		"Fx.Sort": {
 			"deps": ["More", "Fx.Elements", "Element.Dimensions", "Element.Measure"],
 			"desc": "Reorders a group of items with a transition."
@@ -132,13 +197,32 @@
 		},
 
 		"Slider": {
-			"deps": ["More", "Drag", "Element.Dimensions"],
+			"deps": ["More", "Class.Binds", "Drag", "Element.Dimensions"],
 			"desc": "Class for creating horizontal and vertical slider controls."
 		},
 
 		"Sortables": {
 			"deps": ["More", "Drag.Move"],
 			"desc": "Class for creating a drag and drop sorting interface for lists of items."
+		}
+
+	},
+
+	"Request": {
+
+		"Request.JSONP": {
+			"deps": ["More", "Log", "Browser", "Element", "Request", "Class.Extras"],
+			"desc": "Creates a Json request using a script tag include and handles the callbacks for you."
+		},
+
+		"Request.Queue": {
+			"deps": ["More", "Request"],
+			"desc": "Manages a group of Request instances so that connections are queued."
+		},
+
+		"Request.Periodical": {
+			"deps": ["More", "Request", "Class.Refactor"],
+			"desc": "Requests the same url at a time interval that increases when no data is returned from the requested server."
 		}
 
 	},
@@ -172,12 +256,32 @@
 
 	},
 
+	"Interface": {
+
+		"Scroller": {
+			"deps": ["More", "Class.Extras", "Element.Event", "Element.Dimensions"],
+			"desc": "Class which scrolls the contents of any Element (including the window) when the mouse reaches the Element's boundaries."
+		},
+
+		"Tips": {
+			"deps": ["More", "Class.Extras", "Element.Event", "Element.Style", "Element.Dimensions", "Element.Measure"],
+			"desc": "Class for creating nice tooltips that follow the mouse cursor when hovering over an element."
+		}
+
+	},
+
 	"Localization":{
 
 		"Date.English.US": {
 			"deps": ["More", "Lang"],
 			"desc": "Date messages in English (with conventions for the US)."
+		},
+
+		"FormValidator.English": {
+			"deps": ["More", "Lang"],
+			"desc": "FormValidator messages in English."
 		}
+
 	}
 
 }
